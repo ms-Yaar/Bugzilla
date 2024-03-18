@@ -1,0 +1,24 @@
+<h1><%= @project.name %></h1>
+
+<p>Creator: <%= @project.creator.try(:name) || 'Unknown' %></p>
+<p>Assign_to: <%= @project.developer.try(:name) || 'Unknown' %></p>
+
+
+<ul>
+  <li><%= link_to "Edit", edit_project_path(@project) %></li>
+  <li><%= link_to "Destroy", project_path(@project), data: {
+    turbo_method: :delete,
+    turbo_confirm: "Are you sure?"
+  } %></li>
+</ul>
+
+<h2>Bugs associated with this project:</h2>
+
+<ul>
+  <% @project.bugs.each do |bug| %>
+    <p>Title: <%= link_to bug.title, bug_path(bug) %></p>   
+      
+  <% end %>
+</ul>
+
+<%= link_to "Back", projects_path %>

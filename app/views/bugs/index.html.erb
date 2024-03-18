@@ -1,0 +1,27 @@
+<h1>Project Details</h1>
+
+<p><strong>Creator:</strong> <%= @project.creator.name %></p>
+
+<h2>Bugs associated with this project:</h2>
+
+<% @project.bugs.each do |bug| %>
+  <p>
+    <strong>Title:</strong> <%= bug.title %><br>
+    <strong>Description:</strong> <%= bug.description %><br>
+    <% if current_user.developer? && can?(:assign, Bug) %>
+      <%= button_to "Assign to Myself", assign_bug_path(bug), method: :post, data: { confirm: "Are you sure you want to assign this bug to yourself?" } %>
+    <% end %>
+  </p>
+<% end %>
+
+<%= link_to "Back", projects_path %>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,87 @@
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Search with jQuery</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+</head>
+<body>
+
+
+
+  <h1>Welcome to App!</h1>
+  <h4>An email will be sent to this address containing a confirmation link.</h4>
+  <%= button_to("Sign Up", '/signup', method: :get) %>
+  <h6>Thank you for using this app!</h6>
+
+  <h1>Welcome to the project</h1>
+  <% if user_signed_in? %>
+    <p>Signed in as <%= current_user.role %>.</p>
+    <%= button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-danger' %>
+  <% else %>
+    <%= button_to 'Sign in', new_user_session_path, class: 'btn btn-primary' %>
+  <% end %>
+
+  <div style="margin-top: 50px;"></div>
+
+<input type="text" id="search-input" placeholder="Search projects...">
+<ul id="search-results"></ul>
+
+  
+  <h1>Projects</h1>
+  <ul>
+    <% @projects.each do |project| %>
+      <li><%= link_to project.name, project %></li>
+    <% end %>
+  </ul>
+
+  <% if can? :create, Project %>
+    <%= link_to "New project", new_project_path %>
+  <% end %>
+
+  <div style="margin-top: 50px;"></div>
+
+  <% if can? :create, Bug %>
+    <%= link_to "New Bug", new_bug_path, class: 'btn btn-primary' %>
+  <% end %>
+
+  <div style="margin-top: 50px;"></div>
+
+<script>
+
+$(document).ready(function(){
+      function searchProjects(query) {
+        $.ajax({
+          url: '/',
+          method: 'GET',
+          data: { query: query },
+          dataType: 'json',
+          success: function(response) {
+            $('#search-results').empty();
+
+            if (response.length > 0) {
+              response.forEach(function(project) {
+                $('#search-results').append('<li>' + project.name + ' - ' + project.description + '</li>');
+              });
+            } else {
+              $('#search-results').append('<li>No results found</li>');
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error('Error fetching results:', error);
+            console.log('Server response:', xhr.responseText);
+            $('#search-results').empty().append('<li>Error fetching results</li>');
+          }
+        });
+      }
+
+      $('#search-input').on('input', function() {
+        var query = $(this).val();
+        searchProjects(query);
+      });
+    });
+  </script>
+</body>
+</html>

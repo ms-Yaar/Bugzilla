@@ -1,0 +1,73 @@
+<%= form_with model: @bug do |form| %>
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+ <div class="field">
+    <%= form.label :deadline %>
+    <%= form.datetime_field :deadline %>
+  </div>
+
+ <div class="field">
+  <%= form.label :bug_type %>
+  <%= form.collection_radio_buttons :bug_type, [['Feature', 'feature'], ['Bug', 'bug']], :last, :first %>
+</div>
+<div class="field" id="status-field">
+  <%= form.label :status %>
+  <%= form.select :status, options_for_select(@bug.status_options_for_form), include_blank: true %>
+</div>
+
+
+ <div class="field">
+  <%= form.label :user_id %>
+  <% developers = User.where(role: :developer) %>
+  <%= form.collection_select :user_id, developers, :id, :name, prompt: true %>
+</div>
+
+<div class="field">
+  <%= form.label :project_id %>
+  <% all_projects = Project.all %>
+  <%= form.collection_select :project_id, all_projects, :id, :name, prompt: "Please select" %>
+</div>
+
+
+
+
+   <div class="field">
+    <%= form.label :avatar %>
+    <%= form.file_field :avatar %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+  <div style="margin-top: 100px;"></div>
+
+
+<% if @projects.present? %>
+
+<% @projects.each do |project| %>
+  <h2>Project: <%= project.name %></h2>
+  <p><strong>Creator:</strong> <%= project.creator.name %></p>
+  <% if project.developer %>
+    <p><strong>assign_to:</strong> <%= project.developer.name %></p>
+  <% end %>
+  <h3>Bugs associated with this project:</h3>
+  <ul>
+    <% project.bugs.each do |bug| %>
+    <p>Title: <%= bug.title %></p>   
+      <p>Description: <%= bug.description %></p>
+
+    <% end %>
+  </ul>
+<% end %>
+<% end %>

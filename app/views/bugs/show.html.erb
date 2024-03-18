@@ -1,0 +1,23 @@
+
+<h1><strong>Title:</strong> <%= @bug.title %></h1>
+<p><strong>Description:</strong> <%= @bug.description %></p>
+<p><strong>deadline:</strong> <%= @bug.deadline %></p>
+<p><strong>Status:</strong> <%= @bug.status %></p>
+<p><strong>Bug_Type:</strong> <%= @bug.bug_type %></p>
+<ul>
+
+<% if @bug.avatar.attached? %>
+  
+    <%= image_tag @bug.avatar, size: "80x80" %>
+  <% end %>
+
+  <li><%= link_to "Edit", edit_bug_path(@bug) %></li>
+     <li><%= link_to "Destroy", bug_path(@bug), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %>
+    </li>
+
+</ul>
+
+<%= link_to "Back", projects_path %>

@@ -1,0 +1,16 @@
+<h2>New Bug Created</h2>
+<p>Hello <%= @user.name %>,</p>
+<p>A new bug has been assigned to you:</p>
+<p>Project Name: <%= @bug.title %></p>
+<p>Title: <%= @bug.title %></p>
+<p>Description: <%= @bug.description %></p>
+<p>Deadline: <%= @bug.deadline %></p>
+<p>Status: <%= @bug.status %></p>
+<p>Bug Type: <%= @bug.bug_type %></p>
+<% if @bug.avatar.attached? %>
+  <p>Avatar:</p>
+  <%= image_tag url_for(@bug.avatar), size: "80x80" %>
+<% end %>
+<p>Please log in to your account to view more details.</p>
+<p>Regards,</p>
+<p>Your Application Team</p>

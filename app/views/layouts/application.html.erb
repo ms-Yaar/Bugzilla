@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bugzilla</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %> <!-- Cross-Site Request Forgery meta tags -->
+  <%= csp_meta_tag %> <!-- Content Security Policy meta tag -->
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %> <!-- Include CSS files -->
+  <%= javascript_importmap_tags %> <!-- Include JavaScript import map tags -->
+</head>
+<body>
+  <p class="notice"><%= notice %></p> <!-- Display notice messages -->
+  <p class="alert"><%= alert %></p> <!-- Display alert messages -->
+
+  <%= yield %> <!-- Render the content of each individual view -->
+</body>
+</html>
